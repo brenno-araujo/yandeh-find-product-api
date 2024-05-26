@@ -1,0 +1,29 @@
+{
+  "name": "yandeh-challenge-api",
+  "version": "0.0.1",
+  "description": "",
+  "author": "Brenno Araújo",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "serverless offline",
+    "test": "npx jest"
+  },
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.125",
+    "aws-sdk": "^2.1488.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^16.0.0",
+    "jest": "^28.1.3",
+    "prettier": "^2.3.2",
+    "serverless-offline": "^13.3.3",
+    "serverless-plugin-typescript": "^2.1.5",
+    "ts-jest": "^28.0.8",
+    "ts-loader": "^9.5.0",
+    "typescript": "^4.9.5"
+  }
+}

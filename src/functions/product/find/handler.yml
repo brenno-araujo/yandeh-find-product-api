@@ -1,0 +1,9 @@
+product-create:
+    name: product-create-dev
+    handler: src/functions/product/find/index.handler
+    memorySize: 128
+    timeout: 30
+    events:
+      - http:
+          path: product/{idOrName}
+          method: get
