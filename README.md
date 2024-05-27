@@ -18,7 +18,7 @@ docker compose up
 ws://0.0.0.0:3001
 ```
 
-# Enviar json para o websocket para buscar por nome
+# Enviar json para o websocket para buscar por nome. O atributo count é opcional e serve para limitar a quantidade de itens retornados
 ```json
 {
   "action": "product",
@@ -37,4 +37,14 @@ ws://0.0.0.0:3001
 
 ```
 
-docker system prune --all --volumes
+# Tecnologias Utilizadas
+- Node.js
+- TS
+- Websocket
+- MySQL
+- Sequelize
+- Docker
+- Lambda - AWS
+
+# Ao executar o comando docker compose up, o projeto irá criar um container com o banco de dados MySQL e outro container com a aplicação Node.js. A aplicação irá criar a tabela products e irá inserir 2000 registros para testes. A aplicação irá rodar na porta 3001 e o banco de dados na porta 3306.
+
