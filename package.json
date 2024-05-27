@@ -1,7 +1,7 @@
 {
-  "name": "yandeh-challenge-api",
+  "name": "yandeh-find-products-api",
   "version": "0.0.1",
-  "description": "",
+  "description": "Serviço para buscar produtos",
   "author": "Brenno Araújo",
   "private": true,
   "scripts": {
