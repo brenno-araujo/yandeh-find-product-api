@@ -1,0 +1,9 @@
+websocketDisconnect:
+    handler: src/functions/websocket/disconnect.handler
+    timeout: 900
+    events:
+      - websocket:
+          route: $disconnect
+    environment:
+      IS_OFFLINE: true
+      WEBSOCKET_ENDPOINT: yandeh-challenge-api-app-1:3001

@@ -22,7 +22,7 @@ class FindProductService {
     this.productRepository = new ProductRepository();
     this.apiProductService = new ApiProductExternalService();
 
-    const endpoint = process.env.IS_OFFLINE ? 'http://0.0.0.0:3001' : process.env.WEBSOCKET_ENDPOINT;
+    const endpoint = 'http://0.0.0.0:3001';
     this.apigatewaymanagementapi = new AWS.ApiGatewayManagementApi({
       endpoint: endpoint,
     });

@@ -5,6 +5,14 @@
 
 Este é um projeto desenvolvido como parte do processo seletivo da Yandeh. 
 
+## Como Rodar o Projeto
+
+Para iniciar o projeto, você pode utilizar o Docker Compose. Certifique-se de ter o Docker instalado em sua máquina e, em seguida, execute o seguinte comando:
+
+```bash
+docker compose up
+```
+
 # Criar conexao com o websocket - testei com o postman
 ```bash
 ws://0.0.0.0:3001
@@ -19,3 +27,4 @@ ws://0.0.0.0:3001
 
 ```
 
+docker system prune --all --volumes

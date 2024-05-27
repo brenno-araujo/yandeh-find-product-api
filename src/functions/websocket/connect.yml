@@ -1,0 +1,9 @@
+websocketConnect:
+    handler: src/functions/websocket/connect.handler
+    timeout: 900
+    events:
+      - websocket:
+          route: $connect
+    environment:
+      IS_OFFLINE: true
+      WEBSOCKET_ENDPOINT: yandeh-challenge-api-app-1:3001

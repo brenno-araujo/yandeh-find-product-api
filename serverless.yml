@@ -6,23 +6,12 @@ provider:
   runtime: nodejs18.x
   region: sa-east-1
   stage: dev
+  timeout: 900
 
 functions:
-  websocketConnect:
-    handler: src/functions/websocket/connect.handler
-    events:
-      - websocket:
-          route: $connect
-  websocketDisconnect:
-    handler: src/functions/websocket/disconnect.handler
-    events:
-      - websocket:
-          route: $disconnect
-  websocketDefault:
-    handler: src/functions/websocket/default.handler
-    events:
-      - websocket:
-          route: $default
+  - ${file(./src/functions/websocket/connect.yml)}
+  - ${file(./src/functions/websocket/disconnect.yml)}
+  - ${file(./src/functions/websocket/default.yml)}
 
 plugins:
   - serverless-plugin-typescript

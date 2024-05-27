@@ -45,5 +45,11 @@ export const handler = async (event: AWSLambda.APIGatewayEvent) => {
   } catch (error: any) {
     console.error('WebSocket default route error: ', error);
     await sendMessageToClient(connectionId, { message: error.message });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        message: error.message,
+      }),
+    };
   }
 };
