@@ -32,5 +32,6 @@ services:
     - DB_USER=brenno_araujo_user
     - DB_PASS=brenno_araujo_password
     - DB_NAME=yandeh_db
+    - DB_PORT=3306
     - IS_OFFLINE=true
 

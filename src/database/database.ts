@@ -10,12 +10,12 @@ export class DatabaseService {
     if (this.sequelize === null) {
       try {
         this.sequelize = new Sequelize({
-          database: process.env.DB_DATABASE,
+          database: process.env.DB_DATABASE || 'yandeh_db',
           dialect: 'mysql',
-          username: process.env.DB_USERNAME,
-          password: process.env.DB_PASSWORD,
-          host: process.env.DB_HOST,
-          port: Number(process.env.DB_PORT),
+          username: process.env.DB_USERNAME || 'brenno_araujo_user',
+          password: process.env.DB_PASSWORD || 'brenno_araujo_password',
+          host: process.env.DB_HOST || '127.0.0.1',
+          port: Number(process.env.DB_PORT) || 3306,
         });
         this.sequelize.addModels([
           Product,

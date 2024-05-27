@@ -1,11 +1,12 @@
-import ProductRepository from '../../repositories/product/product.repository';
+import { DatabaseService } from '../../database/database';
+import { ProductRepository } from '../../repositories/product/product.repository';
 import ApiProductExternalService from '../../external-services/api-product.external-service';
 import * as AWS from 'aws-sdk';
 
 interface Product {
   id: number;
   name: string;
-  price: string;
+  price: number;
   brand: string;
   imageUrl: string;
   stock?: number;
@@ -17,12 +18,14 @@ class FindProductService {
   private productRepository: ProductRepository;
   private apiProductService: ApiProductExternalService;
   private apigatewaymanagementapi: AWS.ApiGatewayManagementApi;
+  private readonly databaseService: DatabaseService;
 
   constructor() {
     this.productRepository = new ProductRepository();
     this.apiProductService = new ApiProductExternalService();
+    this.databaseService = new DatabaseService();
 
-    const endpoint = 'http://localhost:3001'; // Endpoint local do serverless-offline
+    const endpoint = process.env.DOCKER === 'true' ? 'http://localhost:3001' : 'http://0.0.0.0:3001';
 
     // Configuração do SDK da AWS com credenciais fictícias
     AWS.config.update({
@@ -35,20 +38,19 @@ class FindProductService {
     });
   }
 
-  async execute(id: string, name: string, connectionId: string): Promise<void> {
-    const products = await this.productRepository.generateFakeProducts() as Product[];
-    let productsFiltered = [] as Product[];
-      
+  async execute(id: string, name: string, count: number, connectionId: string): Promise<void> {
+    await this.databaseService.init();
+    let products: { count: number; rows: Product[]}
     if (id) {
-      productsFiltered = products.filter(product => product.id === Number(id));
+      products = await this.productRepository.findById(id);
     } else {
-      productsFiltered = await this.productRepository.searchProducts(name);
+      products = await this.productRepository.findAllLikeName(name, count);
     }
 
     // Envie os produtos filtrados imediatamente
-    await this.sendProductDataToClient(connectionId, productsFiltered);
+    await this.sendProductDataToClient(connectionId, products.rows);
     
-    for (const product of productsFiltered) {
+    for (const product of products.rows) {
       const productId = product.id;
       // Inicie as consultas às APIs externas
       const stockPromise = this.apiProductService.checkStock(productId);
@@ -65,6 +67,8 @@ class FindProductService {
         await this.sendProductDataToClient(connectionId, product);
       } catch (error) {
         console.error('Error fetching product data:', error);
+      } finally {
+        await this.databaseService.close();
       }
     }
     // return productsFiltered;

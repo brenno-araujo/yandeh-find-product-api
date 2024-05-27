@@ -1,39 +1,38 @@
-import { faker } from '@faker-js/faker';
 
-interface Product {
-  id: number;
-  name: string;
-  price: string;
-  brand: string;
-  imageUrl: string;
-}
+import { Op } from 'sequelize';
+import { Product } from '../../entities/product.entity';
 
-class ProductRepository {
-  constructor() {}
+export class ProductRepository {
+  private readonly product: typeof Product;
+  
+  constructor() {
+    this.product = Product;
+  }
 
-  async generateFakeProducts(): Promise<Product[]> {
-    // Função para gerar produtos fictícios
-    const products: Product[] = [];
-    for (let i = 0; i < 2000; i++) {
-      products.push({
-        id: i + 1,
-        name: faker.commerce.productName(),
-        price: faker.commerce.price(),
-        brand: faker.company.name(),
-        imageUrl: faker.image.imageUrl(),
-      });
+  async findById(id: string): Promise<{ count: number; rows: Product[] }> {
+    try {
+      const product = await this.product.findByPk(id, { raw: true });
+      return product ? { count: 1, rows: [product] } : { count: 0, rows: [] };
+    } catch (error) {
+      throw new Error('Erro ao buscar o produto');
     }
-    console.log('Generated fake products:', products.length);
-    return products;
   }
 
-  async searchProducts(query: string): Promise<Product[]> {
-    const products = await this.generateFakeProducts();
-    // Filtra produtos que contêm a string de consulta no nome
-    return products.filter(product =>
-      product.name.toLowerCase().includes(query.toLowerCase())
-    );
+  async findAllLikeName(name: string, count: number): Promise<{ count: number; rows: Product[] }> {
+    try {
+      const countLimit = count || 10;
+      return await this.product.findAndCountAll({
+        where: {
+          name: {
+            [Op.like]: `%${name}%`,
+          },
+        },
+        limit: countLimit,
+        raw: true,
+      });
+    } catch (error) {
+      throw new Error('Erro ao buscar os produtos');
+    }
   }
+
 }
-
-export default ProductRepository;

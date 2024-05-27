@@ -5,5 +5,11 @@ websocketDisconnect:
       - websocket:
           route: $disconnect
     environment:
-      IS_OFFLINE: true
       WEBSOCKET_ENDPOINT: yandeh-challenge-api-app-1:3001
+      NODE_ENV: development
+      DB_HOST: 127.0.0.1
+      DB_USER: brenno_araujo_user
+      DB_PASS: brenno_araujo_password
+      DB_NAME: yandeh_db
+      DB_PORT: 3306
+      IS_OFFLINE: true

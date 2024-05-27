@@ -11,7 +11,7 @@ AWS.config.update({
 });
 
 const apigatewaymanagementapi = new AWS.ApiGatewayManagementApi({
-  endpoint: 'http://localhost:3001', // Endpoint local do serverless-offline
+  endpoint: process.env.DOCKER === 'true' ? 'http://localhost:3001' : 'http://0.0.0.0:3001',
 });
 
 const sendMessageToClient = async (connectionId: string, data: any) => {
@@ -32,7 +32,7 @@ export const handler = async (event: AWSLambda.APIGatewayEvent) => {
 
     console.info('WebSocket default route - event.body: ', event.body);
 
-    const { id = '', name = '' } = JSON.parse(event.body);
+    const { id = '', name = '', count = '' } = JSON.parse(event.body);
 
     console.info('Default route - idOrName: ', id || name);
 
@@ -40,7 +40,7 @@ export const handler = async (event: AWSLambda.APIGatewayEvent) => {
       throw new Error('You must provide an id or name to search for a product.');
     }
 
-    await findProductController.execute(id, name, connectionId);
+    await findProductController.execute(id, name, count, connectionId);
     await sendMessageToClient(connectionId, { message: 'Data sent.' });
     return {
       statusCode: 200,
