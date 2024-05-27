@@ -25,7 +25,7 @@ class FindProductService {
     this.apiProductService = new ApiProductExternalService();
     this.databaseService = new DatabaseService();
 
-    const endpoint = process.env.DOCKER === 'true' ? 'http://localhost:3001' : 'http://0.0.0.0:3001';
+    const endpoint = process.env.IS_DOCKER === 'true' ? 'http://localhost:3001' : 'http://0.0.0.0:3001';
 
     // Configuração do SDK da AWS com credenciais fictícias
     AWS.config.update({

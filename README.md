@@ -18,11 +18,21 @@ docker compose up
 ws://0.0.0.0:3001
 ```
 
-# Enviar json para o websocket
+# Enviar json para o websocket para buscar por nome
 ```json
 {
   "action": "product",
-  "id": "1"
+  "name": "ba",
+  "count": 10
+}
+
+```
+
+# Enviar json para o websocket para buscar por id
+```json
+{
+  "action": "product",
+  "id": 1
 }
 
 ```

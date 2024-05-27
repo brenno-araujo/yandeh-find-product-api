@@ -2,8 +2,6 @@ import { FindProductController } from '../../controllers/product/find-product.co
 import * as AWS from 'aws-sdk';
 import * as dotenv from 'dotenv';
 
-dotenv.config();
-
 // Configuração do SDK da AWS com credenciais fictícias e endpoint local
 AWS.config.update({
   credentials: new AWS.Credentials('fakeAccessKeyId', 'fakeSecretAccessKey'),
@@ -11,7 +9,7 @@ AWS.config.update({
 });
 
 const apigatewaymanagementapi = new AWS.ApiGatewayManagementApi({
-  endpoint: process.env.DOCKER === 'true' ? 'http://localhost:3001' : 'http://0.0.0.0:3001',
+  endpoint: process.env.IS_DOCKER === 'true' ? 'http://localhost:3001' : 'http://0.0.0.0:3001',
 });
 
 const sendMessageToClient = async (connectionId: string, data: any) => {
@@ -19,6 +17,8 @@ const sendMessageToClient = async (connectionId: string, data: any) => {
 };
 
 export const handler = async (event: AWSLambda.APIGatewayEvent) => {
+  dotenv.config();
+
   console.info('WebSocket default event', event);
 
   const connectionId = event.requestContext.connectionId || '';

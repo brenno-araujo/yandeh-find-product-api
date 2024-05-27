@@ -9,6 +9,13 @@ export class DatabaseService {
   async init() {
     if (this.sequelize === null) {
       try {
+        console.log('Iniciando conexão com o banco de dados...');
+        console.log('DB_DATABASE:', process.env.DB_NAME);
+        console.log('DB_USERNAME:', process.env.DB_USER);
+        console.log('DB_PASSWORD:', process.env.DB_PASS);
+        console.log('DB_HOST:', process.env.DB_HOST);
+        console.log('DB_PORT:', process.env.DB_PORT);
+
         this.sequelize = new Sequelize({
           database: process.env.DB_DATABASE || 'yandeh_db',
           dialect: 'mysql',

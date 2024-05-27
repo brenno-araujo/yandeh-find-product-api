@@ -27,11 +27,11 @@ services:
       - "3000:3000"
       - "3001:3001"
     environment:
-    - NODE_ENV=development
-    - DB_HOST=mysql
-    - DB_USER=brenno_araujo_user
-    - DB_PASS=brenno_araujo_password
-    - DB_NAME=yandeh_db
-    - DB_PORT=3306
-    - IS_OFFLINE=true
-
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_USER=brenno_araujo_user
+      - DB_PASS=brenno_araujo_password
+      - DB_NAME=yandeh_db
+      - DB_PORT=3306
+      - IS_OFFLINE=true
+      - IS_DOCKER=true
