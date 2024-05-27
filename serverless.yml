@@ -6,12 +6,23 @@ provider:
   runtime: nodejs18.x
   region: sa-east-1
   stage: dev
-  apiGateway:
-    restApiId: test
-    restApiRootResourceId: test
 
 functions:
-  - ${file(./src/functions/product/find/handler.yml)}
+  websocketConnect:
+    handler: src/functions/websocket/connect.handler
+    events:
+      - websocket:
+          route: $connect
+  websocketDisconnect:
+    handler: src/functions/websocket/disconnect.handler
+    events:
+      - websocket:
+          route: $disconnect
+  websocketDefault:
+    handler: src/functions/websocket/default.handler
+    events:
+      - websocket:
+          route: $default
 
 plugins:
   - serverless-plugin-typescript
@@ -21,4 +32,4 @@ custom:
   serverless-offline:
     httpPort: 3000
     host: '0.0.0.0'
-
+    websocketPort: 3001

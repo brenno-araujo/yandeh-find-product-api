@@ -7,17 +7,21 @@
   "scripts": {
     "build": "tsc --build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "serverless offline",
+    "start": "IS_OFFLINE=true serverless offline",
     "test": "npx jest"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/aws-lambda": "^8.10.125",
-    "aws-sdk": "^2.1488.0",
-    "dotenv": "^16.3.1"
+    "aws-sdk": "^2.1628.0",
+    "dotenv": "^16.3.1",
+    "mysql2": "^2.3.3",
+    "sequelize-typescript": "^2.1.5"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^16.0.0",
+    "@types/sequelize": "^4.28.14",
     "jest": "^28.1.3",
     "prettier": "^2.3.2",
     "serverless-offline": "^13.3.3",
