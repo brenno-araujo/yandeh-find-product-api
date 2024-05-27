@@ -22,7 +22,14 @@ class FindProductService {
     this.productRepository = new ProductRepository();
     this.apiProductService = new ApiProductExternalService();
 
-    const endpoint = 'http://0.0.0.0:3001';
+    const endpoint = 'http://localhost:3001'; // Endpoint local do serverless-offline
+
+    // Configuração do SDK da AWS com credenciais fictícias
+    AWS.config.update({
+      credentials: new AWS.Credentials('fakeAccessKeyId', 'fakeSecretAccessKey'),
+      region: 'sa-east-1', // Região fictícia
+    });
+
     this.apigatewaymanagementapi = new AWS.ApiGatewayManagementApi({
       endpoint: endpoint,
     });
@@ -54,7 +61,6 @@ class FindProductService {
         product.stock = stockData.stock;
         product.available = stockData.available;
         product.lastBuy = lastBuyData.lastBuy;
-        console.log('😒😒😒😒😒😒😒😒😒😒😒😒😒')
         // Envie as informações diretamente para o cliente
         await this.sendProductDataToClient(connectionId, product);
       } catch (error) {

@@ -4,8 +4,14 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+// Configuração do SDK da AWS com credenciais fictícias e endpoint local
+AWS.config.update({
+  credentials: new AWS.Credentials('fakeAccessKeyId', 'fakeSecretAccessKey'),
+  region: 'sa-east-1', // Região fictícia
+});
+
 const apigatewaymanagementapi = new AWS.ApiGatewayManagementApi({
-  endpoint: 'http://0.0.0.0:3001',
+  endpoint: 'http://localhost:3001', // Endpoint local do serverless-offline
 });
 
 const sendMessageToClient = async (connectionId: string, data: any) => {
