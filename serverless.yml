@@ -1,0 +1,24 @@
+service: yandeh-find-products-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: sa-east-1
+  stage: dev
+  timeout: 900
+
+functions:
+  - ${file(./src/functions/websocket/connect.yml)}
+  - ${file(./src/functions/websocket/disconnect.yml)}
+  - ${file(./src/functions/websocket/default.yml)}
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    host: '0.0.0.0'
+    websocketPort: 3001

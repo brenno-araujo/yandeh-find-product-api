@@ -1,0 +1,14 @@
+websocketDefault:
+    handler: src/functions/websocket/default.handler
+    timeout: 900
+    environment:
+      DB_HOST: ${env:DB_HOST}
+      DB_USER: ${env:DB_USER}
+      DB_PASS: ${env:DB_PASS}
+      DB_NAME: ${env:DB_NAME}
+      DB_PORT: ${env:DB_PORT}
+      IS_OFFLINE: ${env:IS_OFFLINE}
+      IS_DOCKER: ${env:IS_DOCKER}
+    events:
+      - websocket:
+          route: $default

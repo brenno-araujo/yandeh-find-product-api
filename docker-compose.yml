@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: yandeh_db
+      MYSQL_ROOT_PASSWORD: brenno_araujo_root
+      MYSQL_USER: brenno_araujo_user
+      MYSQL_PASSWORD: brenno_araujo_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    restart: always
+    
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    volumes:
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_USER=brenno_araujo_user
+      - DB_PASS=brenno_araujo_password
+      - DB_NAME=yandeh_db
+      - DB_PORT=3306
+      - IS_OFFLINE=true
+      - IS_DOCKER=true
