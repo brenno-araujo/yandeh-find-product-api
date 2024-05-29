@@ -54,3 +54,7 @@ ws://0.0.0.0:3001
 
 - Iria utilizar dynamoDB, porém tive problemas para dockerizar o dynamoDB e acabei optando por utilizar o MySQL.
 
+- Optei por não utlizar testes, pois utilizei o tempo para criar o ambiente de desenvolvimento e a implementação do projeto. Porém, acredito que a cobertura de testes é essencial para garantir a qualidade do código.
+
+- Também optei por não utilizar arquitetura hexagonal, por ser um pouco mais demorado para implementar.
+
