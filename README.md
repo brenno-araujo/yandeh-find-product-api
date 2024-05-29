@@ -48,5 +48,9 @@ ws://0.0.0.0:3001
 - Lambda - AWS
 
 ### Observações
-- Ao executar o comando docker compose up, o projeto irá criar um container com o banco de dados MySQL e outro container com a aplicação Node.js. A aplicação irá criar a tabela products e irá inserir 2000 registros para testes. A aplicação irá rodar na porta 3001 e o banco de dados na porta 3306. 
+- Ao executar o comando docker compose up, o projeto irá criar um container com o banco de dados MySQL e outro container com a aplicação Node.js. A aplicação irá criar a tabela products e irá inserir 2000 registros para testes. A aplicação irá rodar na porta 3001 e o banco de dados na porta 3306.
+
+- Decidi colocar um count na requisicao para limitar a quantidade de itens retornados, pois a tabela products possui 2000 registros e acredito que não seria interessante retornar todos os registros de uma vez. Além disso, garante um número menor de requisições nas apis externas.
+
+- Iria utilizar dynamoDB, porém tive problemas para dockerizar o dynamoDB e acabei optando por utilizar o MySQL.
 
