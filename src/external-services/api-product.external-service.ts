@@ -1,40 +1,47 @@
+import axios from 'axios';
+
 class ApiProductExternalService {
-    private token: string;
-  
-    constructor() {
-      this.token = '340fcd8f-071c-4866-9a62-31a7c904eb26';
-    }
-  
-    async checkStock(productId: number): Promise<{ stock: number; available: boolean }> {
-      // Dados simulados de estoque
-      const mockStockData = {
-        stock: Math.floor(Math.random() * 100),
-        available: Math.random() < 0.5,
-      };
-  
-      // Simula um atraso de rede
-      await this.delay(500);
-  
-      return mockStockData;
-    }
-  
-    async checkLastBuy(productId: number): Promise<{ lastBuy: string }> {
-      // Dados simulados de última compra
-      const mockLastBuyData = {
-        lastBuy: new Date(Date.now() - Math.floor(Math.random() * 1000000000)).toISOString(),
-      };
-  
-      // Simula um atraso de rede
-      await this.delay(500);
-  
-      return mockLastBuyData;
-    }
-  
-    // Função para simular atraso
-    private delay(ms: number): Promise<void> {
-      return new Promise(resolve => setTimeout(resolve, ms));
+  private token: string;
+  private baseUrl: string;
+
+  constructor() {
+    this.token = '340fcd8f-071c-4866-9a62-31a7c904eb26';
+    this.baseUrl = 'https://gateway-smartforce-dev.devyandeh.com.br';
+  }
+
+  async checkStock(productId: number): Promise<{ stock: number; available: boolean }> {
+    const url = `${this.baseUrl}/process/candidates/availability/${productId}`;
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          token: this.token
+        }
+      });
+      // Supondo que a resposta da API tenha a estrutura desejada
+      const { quantity, available } = response.data;
+      return { stock: quantity, available };
+    } catch (error) {
+      console.error('Error fetching stock data:', error);
+      throw new Error('Error fetching stock data');
     }
   }
-  
-  export default ApiProductExternalService;
-  
+
+  async checkLastBuy(productId: number, clientId: number): Promise<{ lastBuy: string }> {
+    const url = `${this.baseUrl}/process/candidates/lastbuy/${clientId}/${productId}`;
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          token: this.token
+        }
+      });
+      // Supondo que a resposta da API tenha a estrutura desejada
+      const { lastBuyDate } = response.data;
+      return { lastBuy: lastBuyDate };
+    } catch (error) {
+      console.error('Error fetching last buy data:', error);
+      throw new Error('Error fetching last buy data');
+    }
+  }
+}
+
+export default ApiProductExternalService;

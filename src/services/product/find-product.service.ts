@@ -49,12 +49,14 @@ class FindProductService {
 
     // Envie os produtos filtrados imediatamente
     await this.sendProductDataToClient(connectionId, products.rows);
-    
-    for (const product of products.rows) {
+
+    // fazer todas as promessas de uma vez e depois enviar os dados para o cliente
+    const promises = products.rows.map(async (product) => {
       const productId = product.id;
+      const clientId = 1; // Suponha que o ID do cliente logado seja 1
       // Inicie as consultas às APIs externas
       const stockPromise = this.apiProductService.checkStock(productId);
-      const lastBuyPromise = this.apiProductService.checkLastBuy(productId);
+      const lastBuyPromise = this.apiProductService.checkLastBuy(productId, clientId);
 
       // Espere a conclusão das promessas
       try {
@@ -63,15 +65,15 @@ class FindProductService {
         product.stock = stockData.stock;
         product.available = stockData.available;
         product.lastBuy = lastBuyData.lastBuy;
-        // Envie as informações diretamente para o cliente
+
         await this.sendProductDataToClient(connectionId, product);
       } catch (error) {
         console.error('Error fetching product data:', error);
-      } finally {
-        await this.databaseService.close();
       }
-    }
-    // return productsFiltered;
+    });
+
+    await Promise.allSettled(promises);
+    await this.databaseService.close();
   }
 
   private async sendProductDataToClient(connectionId: string, product: Product | Product[]): Promise<void> {
